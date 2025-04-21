@@ -1,11 +1,16 @@
 package com.plusCode.quadtree;
 
-public class  Quadrant {
+/**
+ * Quadrant class to encode latitude/longitude into a quad-based geocode,
+ * and decode a quad-geocode back into approximate coordinates.
+ */
+public class Quadrant {
     private Quadrant ne;
     private Quadrant nw;
     private Quadrant se;
     private Quadrant sw;
     private Quadrant parent;
+
     private final int depth;
     private final double minLat;
     private final double minLon;
@@ -15,37 +20,31 @@ public class  Quadrant {
     public Quadrant(Quadrant parent, double minLat, double maxLat, double minLon, double maxLon) {
         this.parent = parent;
         this.minLat = minLat;
-        this.minLon = minLon;
         this.maxLat = maxLat;
+        this.minLon = minLon;
         this.maxLon = maxLon;
         this.depth = (parent == null) ? 0 : parent.depth + 1;
     }
 
-    public Quadrant getParent() {
-        return parent;
-    }
+    public double getMinLat() { return minLat; }
+    public double getMaxLat() { return maxLat; }
+    public double getMinLon() { return minLon; }
+    public double getMaxLon() { return maxLon; }
 
-    public void setParent(Quadrant parent) {
-        this.parent = parent;
-    }
+    public double getMidLat() { return (minLat + maxLat) / 2; }
+    public double getMidLon() { return (minLon + maxLon) / 2; }
 
     public Quadrant getNe() { return ne; }
     public Quadrant getNw() { return nw; }
     public Quadrant getSe() { return se; }
     public Quadrant getSw() { return sw; }
 
-    public double getMinLat() { return minLat; }
-    public double getMinLon() { return minLon; }
-    public double getMaxLat() { return maxLat; }
-    public double getMaxLon() { return maxLon; }
-    public double getMidLat() { return (getMinLat() + getMaxLat()) / 2; }
-    public double getMidLon() { return (getMinLon() + getMaxLon()) / 2; }
-
-    public int getDepth() { return depth; }
-
+    /**
+     * Subdivides the current quadrant into four child quadrants.
+     */
     public void subdivide() {
-        double midLat = (minLat + maxLat) / 2;
-        double midLon = (minLon + maxLon) / 2;
+        double midLat = getMidLat();
+        double midLon = getMidLon();
 
         nw = new Quadrant(this, midLat, maxLat, minLon, midLon);
         ne = new Quadrant(this, midLat, maxLat, midLon, maxLon);
@@ -53,67 +52,83 @@ public class  Quadrant {
         se = new Quadrant(this, minLat, midLat, midLon, maxLon);
     }
 
+    /**
+     * Encodes a latitude and longitude into a quad-based string code.
+     *
+     * @param root the root quadrant
+     * @param depth how many levels deep to encode
+     * @param lat latitude
+     * @param lon longitude
+     * @return encoded quad code
+     */
     public String encode(Quadrant root, int depth, double lat, double lon) {
         Quadrant curr = root;
         StringBuilder res = new StringBuilder();
-        while(depth > 0) {
+
+        while (depth > 0) {
             curr.subdivide();
-            if (lat >= curr.getMinLat() && lat < curr.getMidLat() && lon >= curr.getMinLon() && lon < curr.getMidLon()) {
+            double midLat = curr.getMidLat();
+            double midLon = curr.getMidLon();
+
+            if (lat < midLat && lon < midLon) { // SW = 3
                 curr = curr.getSw();
-                res.append(3);
-            }
-            else if (lat >= curr.getMidLat() && lat < curr.getMaxLat() && lon >= curr.getMinLon() && lon < curr.getMidLon()) {
+                res.append('3');
+            } else if (lat >= midLat && lon < midLon) { // NW = 1
                 curr = curr.getNw();
-                res.append(1);
-            }
-            else if (lat >= curr.getMinLat() && lat < curr.getMidLat() && lon >= curr.getMidLon() && lon < curr.getMaxLon()) {
+                res.append('1');
+            } else if (lat < midLat && lon >= midLon) { // SE = 4
                 curr = curr.getSe();
-                res.append(4);
-            }
-            else if (lat >= curr.getMidLat() && lat < curr.getMaxLat() && lon >= curr.getMidLon() && lon < curr.getMaxLon()) {
+                res.append('4');
+            } else { // NE = 2
                 curr = curr.getNe();
-                res.append(2);
+                res.append('2');
             }
+
             depth--;
         }
+
         return res.toString();
     }
 
+    /**
+     * Decodes a quad-based string code back into an approximate [lat, lon] center.
+     *
+     * @param encoded the quad code
+     * @return center point of the decoded area [lat, lon]
+     */
     public static double[] decode(String encoded) {
-        double[] res = new double[2];
-        int i = 0;
         double maxLat = 90;
-        double maxLon = 180;
         double minLat = -90;
+        double maxLon = 180;
         double minLon = -180;
-        while(i < encoded.length()){
+
+        for (int i = 0; i < encoded.length(); i++) {
             double midLat = (minLat + maxLat) / 2;
             double midLon = (minLon + maxLon) / 2;
-            if (encoded.charAt(i) == '1') {
-                // NW
-                maxLat = midLat;
-                maxLon = midLon;
-                // minLat and minLon stay the same
-            } else if (encoded.charAt(i) == '2') {
-                // NE
-                maxLat = midLat;
-                minLon = midLon;
-                // minLat stays, maxLon stays
-            } else if (encoded.charAt(i) == '3') {
-                // SW
-                minLat = midLat;
-                maxLon = midLon;
-                // maxLat stays, minLon stays
-            } else if (encoded.charAt(i) == '4') {
-                // SE
-                minLat = midLat;
-                minLon = midLon;
-                // maxLat and maxLon stay the same
+            char c = encoded.charAt(i);
+
+            switch (c) {
+                case '1': // NW
+                    minLat = midLat;
+                    maxLon = midLon;
+                    break;
+                case '2': // NE
+                    minLat = midLat;
+                    minLon = midLon;
+                    break;
+                case '3': // SW
+                    maxLat = midLat;
+                    maxLon = midLon;
+                    break;
+                case '4': // SE
+                    maxLat = midLat;
+                    minLon = midLon;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid code character: " + c);
             }
-            i++;
         }
-        res[0] = (maxLat + minLat) / 2;
-        res[1] = (maxLon + minLon) / 2;
-        return res;
+
+        return new double[]{(minLat + maxLat) / 2, (minLon + maxLon) / 2};
     }
 }
