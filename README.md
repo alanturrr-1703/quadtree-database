@@ -1,6 +1,6 @@
 # Quadtree Database
 
-A Java project for **quad-based map indexing**, evolving from a small Earth geocoder into a **desktop map database suite**: import a map image, draw roads and terrain (hills, plains, mountains, beaches, water, etc.), and build/query your own `.plusmap` database with a custom storage and query engine—no PostgreSQL or external GIS stack.
+A Java project for **quad-based map indexing**, evolving from a small Earth geocoder into a **desktop map database suite**: import a map image, draw roads and terrain (hills, plains, mountains, beaches, water, etc.), and build/query your own `.plusmap` database with a custom storage and query engine.
 
 **Repository:** [github.com/alanturrr-1703/quadtree-database](https://github.com/alanturrr-1703/quadtree-database)
 
