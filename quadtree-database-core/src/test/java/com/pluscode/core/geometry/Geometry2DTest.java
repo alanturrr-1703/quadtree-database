@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Run: mvn -pl pluscode-core -Dtest=Geometry2DTest test
+ * Run: mvn -pl quadtree-database-core -Dtest=Geometry2DTest test
  */
 class Geometry2DTest {
 

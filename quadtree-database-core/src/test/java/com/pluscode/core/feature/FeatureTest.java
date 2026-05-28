@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Run: mvn -pl pluscode-core -Dtest=FeatureTest test
+ * Run: mvn -pl quadtree-database-core -Dtest=FeatureTest test
  */
 class FeatureTest {
 

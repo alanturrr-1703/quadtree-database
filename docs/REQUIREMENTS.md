@@ -1,6 +1,6 @@
 # Phase 1 — Core module requirements
 
-Use this document together with the **unit tests** in `pluscode-core/src/test/java`. Implement each class until all tests pass.
+Use this document together with the **unit tests** in `quadtree-database-core/src/test/java`. Implement each class until all tests pass.
 
 **Project overview:** [../README.md](../README.md)
 
@@ -10,17 +10,17 @@ From the repository root:
 
 ```bash
 # All core tests
-mvn -pl pluscode-core clean test
+mvn -pl quadtree-database-core clean test
 
 # One test class
-mvn -pl pluscode-core -Dtest=BoundsTest test
-mvn -pl pluscode-core -Dtest=MapSpaceTest test
-mvn -pl pluscode-core -Dtest=Geometry2DTest test
-mvn -pl pluscode-core -Dtest=FeatureTest test
-mvn -pl pluscode-core -Dtest=TerrainTypeTest test
+mvn -pl quadtree-database-core -Dtest=BoundsTest test
+mvn -pl quadtree-database-core -Dtest=MapSpaceTest test
+mvn -pl quadtree-database-core -Dtest=Geometry2DTest test
+mvn -pl quadtree-database-core -Dtest=FeatureTest test
+mvn -pl quadtree-database-core -Dtest=TerrainTypeTest test
 
 # Single test method
-mvn -pl pluscode-core -Dtest=MapSpaceTest#earthSanFranciscoMatchesReadme test
+mvn -pl quadtree-database-core -Dtest=MapSpaceTest#earthSanFranciscoMatchesReadme test
 ```
 
 Run `clean` if you see `Unresolved compilation problem` errors from stale builds.
@@ -28,7 +28,7 @@ Run `clean` if you see `Unresolved compilation problem` errors from stale builds
 ## Package layout
 
 ```
-pluscode-core/src/main/java/com/pluscode/core/
+quadtree-database-core/src/main/java/com/pluscode/core/
   spatial/     Bounds, Point2D, MapSpaceConvention, MapSpace
   geometry/    Geometry2D
   feature/     GeometryKind, TerrainType, Feature
@@ -266,14 +266,14 @@ Calls `validate()` before returning instance.
 3. `MapSpace` + `LegacyQuadrant` → `MapSpaceTest` green  
 4. `Geometry2D` → `Geometry2DTest` green  
 5. `Feature.validate` + helpers → `FeatureTest` green  
-6. Full suite: `mvn -pl pluscode-core clean test`
+6. Full suite: `mvn -pl quadtree-database-core clean test`
 
 ---
 
 ## Done when
 
 ```bash
-mvn -pl pluscode-core clean test
+mvn -pl quadtree-database-core clean test
 ```
 
 prints **BUILD SUCCESS** with 0 failures.

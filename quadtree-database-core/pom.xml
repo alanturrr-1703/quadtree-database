@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.pluscode</groupId>
-        <artifactId>pluscode-parent</artifactId>
+        <groupId>com.quadtree.database</groupId>
+        <artifactId>quadtree-database-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>pluscode-core</artifactId>
-    <name>PlusCode Core</name>
+    <artifactId>quadtree-database-core</artifactId>
+    <name>Quadtree Database Core</name>
     <description>MapSpace quadtree, geometry, and feature model</description>
 
     <dependencies>

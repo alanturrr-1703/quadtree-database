@@ -4,13 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.pluscode</groupId>
-    <artifactId>pluscode-parent</artifactId>
+    <groupId>com.quadtree.database</groupId>
+    <artifactId>quadtree-database-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <name>Quadtree Database</name>
 
     <modules>
-        <module>pluscode-core</module>
+        <module>quadtree-database-core</module>
     </modules>
 
     <properties>

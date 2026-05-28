@@ -1,4 +1,4 @@
-# pluscode-core
+# quadtree-database-core
 
 Phase 1 library: spatial bounds, quad encoding (`MapSpace`), 2D geometry helpers, and map features (roads + terrain regions).
 
@@ -9,8 +9,8 @@ Full per-method requirements: [../docs/REQUIREMENTS.md](../docs/REQUIREMENTS.md)
 ## Tests
 
 ```bash
-mvn -pl pluscode-core clean test
-mvn -pl pluscode-core -Dtest=BoundsTest test
+mvn -pl quadtree-database-core clean test
+mvn -pl quadtree-database-core -Dtest=BoundsTest test
 ```
 
 ## Implementation status
