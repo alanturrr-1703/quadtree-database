@@ -11,7 +11,7 @@ A Java project for **quad-based map indexing**, evolving from a small Earth geoc
 | Area | Status |
 |------|--------|
 | **Legacy geocoder** | Original `Quadrant` lat/lon encode/decode in `src/main/java/com/plusCode/` |
-| **Phase 1 — `quadtree-database-core`** | In progress: tests + boilerplate; you implement against [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md) |
+| **Phase 1 — `quadtree-database-core`** | Complete (23 tests passing) |
 | **Phase 2+** | Planned: `.plusmap` file format, storage engine, JavaFX desktop editor |
 
 ### Phase 1 implementation progress
