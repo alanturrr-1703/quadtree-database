@@ -11,10 +11,10 @@ public enum TerrainType {
     CUSTOM;
 
     public boolean isTerrainRegion() {
-        throw new UnsupportedOperationException("TODO: implement isTerrainRegion");
+        return this != ROAD;
     }
 
     public boolean isRoad() {
-        throw new UnsupportedOperationException("TODO: implement isRoad");
+        return this == ROAD;
     }
 }

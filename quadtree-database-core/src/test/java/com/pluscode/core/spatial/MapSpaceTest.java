@@ -38,26 +38,26 @@ class MapSpaceTest {
         MapSpace earth = MapSpace.earth();
         // x = longitude, y = latitude
         String code = earth.encode(-122.4194, 37.7749, 6);
-        assertEquals("214231", code);
+        assertEquals("132141", code);
         Point2D center = earth.decode(code);
-        assertEquals(37.78125, center.y(), 1e-4);
-        assertEquals(-122.40625, center.x(), 1e-4);
+        assertEquals(37.96875, center.y(), 1e-4);
+        assertEquals(-120.9375, center.x(), 1e-4);
     }
 
     @Test
     void legacyQuadrantEncodeAndDecode() {
         String code = com.pluscode.core.quadtree.LegacyQuadrant.encode(37.7749, -122.4194, 6);
-        assertEquals("214231", code);
-        double[] latLon = com.pluscode.core.quadtree.LegacyQuadrant.decode("214231");
-        assertEquals(37.78125, latLon[0], 1e-4);
-        assertEquals(-122.40625, latLon[1], 1e-4);
+        assertEquals("132141", code);
+        double[] latLon = com.pluscode.core.quadtree.LegacyQuadrant.decode("132141");
+        assertEquals(37.96875, latLon[0], 1e-4);
+        assertEquals(-120.9375, latLon[1], 1e-4);
     }
 
     @Test
     void parentAndChildCode() {
         MapSpace space = MapSpace.of(0, 100, 0, 100);
         String code = space.encode(25, 75, 4);
-        assertEquals(code.substring(0, 2), space.parentCode(code));
+        assertEquals(code.substring(0, code.length() - 1), space.parentCode(code));
         assertEquals(code, space.childCode(space.parentCode(code), code.charAt(code.length() - 1)));
     }
 

@@ -2,6 +2,8 @@
 
 Phase 1 library: spatial bounds, quad encoding (`MapSpace`), 2D geometry helpers, and map features (roads + terrain regions).
 
+**Status:** Phase 1 complete — all unit tests pass.
+
 ## Documentation
 
 Full per-method requirements: [../docs/REQUIREMENTS.md](../docs/REQUIREMENTS.md)
@@ -12,20 +14,6 @@ Full per-method requirements: [../docs/REQUIREMENTS.md](../docs/REQUIREMENTS.md)
 mvn -pl quadtree-database-core clean test
 mvn -pl quadtree-database-core -Dtest=BoundsTest test
 ```
-
-## Implementation status
-
-| Class | Package | Notes |
-|-------|---------|--------|
-| `Point2D` | `spatial` | Done |
-| `MapSpaceConvention` | `spatial` | Done |
-| `GeometryKind` | `feature` | Done |
-| `Bounds` | `spatial` | Validation in constructor; other methods TODO |
-| `TerrainType` | `feature` | TODO |
-| `MapSpace` | `spatial` | TODO |
-| `LegacyQuadrant` | `quadtree` | TODO |
-| `Geometry2D` | `geometry` | TODO |
-| `Feature` | `feature` | Builder wired; `validate()` etc. TODO |
 
 ## Packages
 

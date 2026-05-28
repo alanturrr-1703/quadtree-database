@@ -72,7 +72,7 @@ quadtree-database-core/src/main/java/com/pluscode/core/
 
 ## Bounds {#bounds}
 
-**Status:** Constructor validation implemented; remaining methods TODO.
+**Status:** Complete.
 
 Axis-aligned rectangle `[minX, maxX) × [minY, maxY)` for `contains`; `containsInclusive` includes max edges.
 
@@ -141,7 +141,7 @@ Stateless quadtree over a fixed rectangle. Quad digits: **1 = NW, 2 = NE, 3 = SW
 | `y < midY` and `x >= midX` | `4` (SE) |
 | else | `2` (NE) |
 
-**Acceptance:** `earth().encode(-122.4194, 37.7749, 6)` → `"214231"` (SF README example).
+**Acceptance:** `earth().encode(-122.4194, 37.7749, 6)` → `"132141"` (matches legacy `Quadrant`).
 
 ### Decode (`decode(code)`)
 
@@ -149,7 +149,7 @@ Stateless quadtree over a fixed rectangle. Quad digits: **1 = NW, 2 = NE, 3 = SW
 - Start from space bounds; for each digit, narrow like `boundsForCode`.
 - Return center `(centerX, centerY)` of final cell.
 
-**Acceptance:** decode `"214231"` on earth → approximately `(lon=-122.40625, lat=37.78125)`.
+**Acceptance:** decode `"132141"` on earth → approximately `(lon=-120.9375, lat=37.96875)`.
 
 ### `boundsForCode(code)`
 

@@ -1,9 +1,9 @@
 package com.pluscode.core.spatial;
 
+import java.util.Objects;
+
 /**
- * Axis-aligned rectangle. Implement validation and spatial queries.
- *
- * @see docs/REQUIREMENTS.md#bounds
+ * Axis-aligned rectangle in map space (x horizontal, y vertical).
  */
 public final class Bounds {
 
@@ -13,13 +13,13 @@ public final class Bounds {
     private final double maxY;
 
     public Bounds(double minX, double maxX, double minY, double maxY) {
+        if (minX >= maxX || minY >= maxY) {
+            throw new IllegalArgumentException("Invalid bounds: require minX < maxX and minY < maxY");
+        }
         this.minX = minX;
         this.maxX = maxX;
         this.minY = minY;
         this.maxY = maxY;
-        if (minX >= maxX || minY >= maxY) {
-            throw new IllegalArgumentException("Invalid bounds: require minX < maxX and minY < maxY");
-        }
     }
 
     public static Bounds of(double minX, double maxX, double minY, double maxY) {
@@ -43,53 +43,66 @@ public final class Bounds {
     }
 
     public double width() {
-        throw new UnsupportedOperationException("TODO: implement width");
+        return maxX - minX;
     }
 
     public double height() {
-        throw new UnsupportedOperationException("TODO: implement height");
+        return maxY - minY;
     }
 
     public double midX() {
-        throw new UnsupportedOperationException("TODO: implement midX");
+        return (minX + maxX) / 2.0;
     }
 
     public double midY() {
-        throw new UnsupportedOperationException("TODO: implement midY");
+        return (minY + maxY) / 2.0;
     }
 
     public double centerX() {
-        throw new UnsupportedOperationException("TODO: implement centerX");
+        return midX();
     }
 
     public double centerY() {
-        throw new UnsupportedOperationException("TODO: implement centerY");
+        return midY();
     }
 
     public boolean contains(double x, double y) {
-        throw new UnsupportedOperationException("TODO: implement contains (half-open: max edge exclusive)");
+        return x >= minX && x < maxX && y >= minY && y < maxY;
     }
 
     public boolean containsInclusive(double x, double y) {
-        throw new UnsupportedOperationException("TODO: implement containsInclusive");
+        return x >= minX && x <= maxX && y >= minY && y <= maxY;
     }
 
     public boolean intersects(Bounds other) {
-        throw new UnsupportedOperationException("TODO: implement intersects");
+        return minX < other.maxX && maxX > other.minX && minY < other.maxY && maxY > other.minY;
     }
 
     public Bounds union(Bounds other) {
-        throw new UnsupportedOperationException("TODO: implement union");
+        return new Bounds(
+                Math.min(minX, other.minX),
+                Math.max(maxX, other.maxX),
+                Math.min(minY, other.minY),
+                Math.max(maxY, other.maxY));
     }
 
     @Override
     public boolean equals(Object o) {
-        throw new UnsupportedOperationException("TODO: implement equals");
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Bounds bounds)) {
+            return false;
+        }
+        return Double.compare(minX, bounds.minX) == 0
+                && Double.compare(maxX, bounds.maxX) == 0
+                && Double.compare(minY, bounds.minY) == 0
+                && Double.compare(maxY, bounds.maxY) == 0;
     }
 
     @Override
     public int hashCode() {
-        throw new UnsupportedOperationException("TODO: implement hashCode");
+        return Objects.hash(minX, maxX, minY, maxY);
     }
 
     @Override

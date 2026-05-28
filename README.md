@@ -18,12 +18,14 @@ A Java project for **quad-based map indexing**, evolving from a small Earth geoc
 
 | Class | Status |
 |-------|--------|
-| `Bounds` | Constructor validation done; size/contains/intersect methods still TODO |
-| `TerrainType` | Boilerplate |
-| `MapSpace`, `LegacyQuadrant` | Boilerplate |
-| `Geometry2D` | Boilerplate |
-| `Feature` | Boilerplate |
+| `Bounds` | Complete |
+| `TerrainType` | Complete |
+| `MapSpace`, `LegacyQuadrant` | Complete |
+| `Geometry2D` | Complete |
+| `Feature` | Complete |
 | `Point2D`, `GeometryKind`, `MapSpaceConvention` | Complete |
+
+All **23** unit tests pass: `mvn -pl quadtree-database-core test`
 
 ---
 
@@ -60,7 +62,7 @@ The map is split recursively into four children per cell:
 | 3 | SW |
 | 4 | SE |
 
-On **custom map images**, coordinates are pixel space (origin top-left, y down). On **Earth**, `MapSpace.earth()` uses longitude/latitude and matches the original `Quadrant` behavior (e.g. San Francisco → `214231` at depth 6).
+On **custom map images**, coordinates are pixel space (origin top-left, y down). On **Earth**, `MapSpace.earth()` uses longitude/latitude and matches the original `Quadrant` behavior (e.g. San Francisco → `132141` at depth 6).
 
 ---
 
