@@ -12,6 +12,7 @@
 
     <modules>
         <module>quadtree-database-core</module>
+        <module>quadtree-database-engine</module>
     </modules>
 
     <properties>

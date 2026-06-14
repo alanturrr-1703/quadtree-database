@@ -12,7 +12,8 @@ A Java project for **quad-based map indexing**, evolving from a small Earth geoc
 |------|--------|
 | **Legacy geocoder** | Original `Quadrant` lat/lon encode/decode in `src/main/java/com/plusCode/` |
 | **Phase 1 — `quadtree-database-core`** | Complete (23 tests passing) |
-| **Phase 2+** | Planned: `.plusmap` file format, storage engine, JavaFX desktop editor |
+| **Phase 2 — `quadtree-database-engine`** | Complete (24 tests passing) |
+| **Phase 3+** | Planned: JavaFX desktop editor |
 
 ### Phase 1 implementation progress
 
@@ -25,7 +26,16 @@ A Java project for **quad-based map indexing**, evolving from a small Earth geoc
 | `Feature` | Complete |
 | `Point2D`, `GeometryKind`, `MapSpaceConvention` | Complete |
 
-All **23** unit tests pass: `mvn -pl quadtree-database-core test`
+### Phase 2 implementation progress
+
+| Component | Status |
+|-----------|--------|
+| `.plusmap` binary format (v1) | Complete |
+| `QuadIndexBuilder` | Complete |
+| Query DSL (`QueryParser`, `QueryExecutor`) | Complete |
+| `PlusMapDatabase` (build, open, query) | Complete |
+
+All **24** engine tests pass: `mvn -pl quadtree-database-engine test`
 
 ---
 
@@ -41,8 +51,15 @@ quadtree-database/
 │   │   ├── feature/                     # Feature, TerrainType, GeometryKind
 │   │   └── quadtree/                    # LegacyQuadrant (earth wrapper)
 │   └── src/test/java/                   # JUnit 5 specs (TDD)
+├── quadtree-database-engine/            # Phase 2: .plusmap format, index, query DSL
+│   ├── src/main/java/com/pluscode/engine/
+│   │   ├── format/                      # PlusMapReader, PlusMapWriter
+│   │   ├── index/                       # QuadIndex, QuadIndexBuilder
+│   │   └── query/                       # QueryParser, QueryExecutor
+│   └── src/test/java/
 ├── docs/
-│   └── REQUIREMENTS.md                  # Per-class requirements
+│   ├── REQUIREMENTS.md                  # Phase 1 per-class requirements
+│   └── PHASE2_REQUIREMENTS.md           # Phase 2 engine requirements
 ├── src/main/java/com/plusCode/          # Original demo + Quadrant (legacy)
 │   ├── quadtree/Quadrant.java
 │   └── Main.java
@@ -71,8 +88,14 @@ On **custom map images**, coordinates are pixel space (origin top-left, y down).
 **Requirements:** Java 21+, Maven 3.9+
 
 ```bash
-# From repo root — all core tests
+# From repo root — all tests (core + engine)
+mvn clean test
+
+# Phase 1 core tests
 mvn -pl quadtree-database-core test
+
+# Phase 2 engine tests
+mvn -pl quadtree-database-engine test
 
 # Clean build (recommended after code changes)
 mvn -pl quadtree-database-core clean test
@@ -105,9 +128,24 @@ After Phase 1, prefer `MapSpace.earth()` / `LegacyQuadrant` in `quadtree-databas
 
 ## Product roadmap (planned)
 
-1. **Core** — `MapSpace`, `Bounds`, `Geometry2D`, `Feature` (current)
-2. **Engine** — `.plusmap` on-disk format, quad indexes, custom query DSL
+1. **Core** — `MapSpace`, `Bounds`, `Geometry2D`, `Feature` (complete)
+2. **Engine** — `.plusmap` on-disk format, quad indexes, custom query DSL (complete)
 3. **Desktop** — JavaFX editor: image import, draw roads/regions, build index, query console
+
+### Phase 2 quick example
+
+```java
+MapSpace space = MapSpace.of(0, 1000, 0, 800);
+
+PlusMapDatabase db = PlusMapDatabase.builder(space)
+    .indexDepth(4)
+    .addFeature(roadFeature)
+    .addFeature(lakeFeature)
+    .buildAndWrite(Path.of("world.plusmap"));
+
+PlusMapDatabase loaded = PlusMapDatabase.open(Path.of("world.plusmap"));
+List<Feature> hits = loaded.query("TYPE ROAD AND BOUNDS 0 0 500 400");
+```
 
 ---
 
